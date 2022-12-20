@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<title>プロフィールページ</title>
+
+<style>
+    .icon {
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1.5px solid #eee;
+    margin-bottom:50px ;
+}
+</style>
+
+{% endblock header %}
+
+{% block content %}
+
+
+<div style="text-align: center;">
+    {% if account.image %}
+    <img src="{{ account.image.url }}" class="icon" >
+    {% endif %}
+    <h3>{{account.user}}</h3>
+    <br>
+    <p>出身地: {{account.birthplace}}</p>
+    <p>旅行回数: {{memory_num}}回</p>
+    <p>一番多く行ってる県: {{ geo.ken }}</p>
+    
+    </div>
+{% endblock %}

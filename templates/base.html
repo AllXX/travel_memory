@@ -1,0 +1,207 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/memory/style.css">
+
+    {% block header %}
+    
+    {% endblock header %}
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+    
+        .user-icon {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    /* border: 0.5px solid #eee; */
+}
+
+#menu_waku{
+    margin-right: 3vw;
+	text-align:center;
+
+}
+
+#menu, #menu ul {
+	margin:0;
+	padding:0;
+	list-style-type:none;
+} 
+
+
+#menu li	{
+	float:left;
+	position:relative;
+}
+
+.menu01_sub{
+	margin:0px;
+    margin-top: 50px;
+	width:120px;
+    height: 170px;
+	display: none;
+	position: absolute;
+	top:50px;
+	left:0px;
+    z-index: 2;
+    background-color: rgb(13 202 240 / 32%);
+    border-radius: 20px;
+}
+
+
+.menu01_sub li a {
+	display: block;
+    margin-top: 20px;
+	width:100px;
+    text-decoration: none;
+    color: rgb(34, 34, 34);
+    
+}
+
+#name {
+    margin-bottom: 30px;
+    font-size: 130%;
+
+}
+
+#menu{
+    /* padding-left: 10px; */
+    padding-bottom: 10px;   
+}
+
+#menu:hover{
+    color: white;
+}
+
+
+    </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600&display=swap" rel="stylesheet">
+<script type="text/javascript" src="../static/memory/jquery.js"></script>
+<script type="text/javascript" src="../static/memory/menu.js"></script>
+<!-- <script type="text/javascript" src="../static/memory/yuga.js"></script> -->
+
+
+
+</head>
+
+<body class="all">
+    <div class="containe">
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid" style="box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+                <a  href="{% url 'memory:home' %}">
+                    <img src="../../static/images/travelmemory_logo.png" alt="ロゴ" height="50px" style="padding-left: 30px;"/>
+                    <img src="../../static/images/travelmemory_font.png" alt="ロゴ" height="64px" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarText" >
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                        <li class="nav-item h4" style="padding-left: 50px;">
+                            <a class="nav-link header active" aria-current="page" href="{% url 'memory:memory' %}">思い出記録</a>
+                        </li>
+                        <li class="nav-item h4" style="padding-left: 50px;">
+                            <a class="nav-link header active" aria-current="page" href="{% url 'blog:blog' %}">ブログ</a>
+                        </li>
+                    </ul>
+                    {% if user.is_authenticated %}
+
+                    <!-- <div class="username">
+                        <font class="mx-3" color="#ff8c00">{{ Username }}</font>さんようこそ！！
+                    </div> -->
+
+
+
+                    {% if account.image %}
+
+
+                    <div id="menu_waku">
+                        <ul id="menu">
+                        <li class="menu01">
+                        <a href="#"><img src="{{ account.image.url }}" class="user-icon" style="margin-right:2rem;"></a>
+                            <ul class="menu01_sub">
+                            <li><a href="#" id="name" style="pointer-events: none;"><b>{{Username}}</b></a></li>
+                        
+                            <li><a href="{% url 'memory:profile' %}" id="menu" class="menu">アカウント</a></li>
+                            
+                            <li><a href="{% url 'memory:logout' %}" id="menu" class="menu">ログアウト</a></li>
+                            </ul>
+                        </li>
+                        </div>
+    
+                    {% else %}
+
+                    <div id="menu_waku">
+                        <ul id="menu">
+                        <li class="menu01">
+                            <a href="{% url 'memory:profile' %}"><img src="{% static 'images/first-icon.jpg' %}" class="user-icon" style="margin-right:2rem;"></a>
+                            <ul class="menu01_sub">
+                            <li><a href="#" id="name" style="pointer-events: none;"><b>{{Username}}</b></a></li>
+                        
+                            <li><a href="{% url 'memory:profile' %}" id="menu">アカウント</a></li>
+                            
+                            <li><a href="{% url 'memory:logout' %}" id="menu">ログアウト</a></li>
+                            </ul>
+                        </li>
+                        </div>
+
+                    {% endif %}
+
+
+                    {% else %}
+
+                    <div class="btn-content">
+                    <div class="btn-radius-gradient-wrap">
+                        <a href="{% url 'memory:login' %}" class="btn btn--orange btn--radius">ログイン</a>
+                      </div>
+                    </div>
+                    <div class="btn-content2">
+                      <div class="btn-radius-gradient-wrap">
+                        <a href="{% url 'memory:signup' %}" class="btn btn--orange btn--radius">新規登録</a>
+                      </div>
+                    </div>
+                    
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="content">
+    {% block content %}
+
+    {% endblock %}
+    </div>
+    <footer class="footer">
+        <div class="footer-right">
+                  
+            <p class="menu"> 
+            <a class="navbar-brand" href="{% url 'memory:home' %}">
+                <img src="../../media/images/travelmemory_logo.png" alt="ロゴ" height="50px" style="padding-right:50px ; padding-left: 30px;"/>
+            </a>   
+            <a href="{% url 'memory:how-to-use' %}"> サイト利用方法</a> |
+            <a href="{% url 'memory:rule' %}"> 利用規約</a> |
+            <a href="{% url 'memory:policy' %}"> プライバシーポリシー</a> |
+            <a href="#"> お問い合わせ</a>
+          </p>
+          <p class="name"> Travelmemory &copy; 2022</p>
+        </div>
+      </footer>
+      
+    </div>
+</body>
+
+</html>

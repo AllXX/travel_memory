@@ -1,0 +1,226 @@
+{% load django_bootstrap5 %} {% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../static/memory/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600&display=swap" rel="stylesheet">
+
+    {% bootstrap_css %} {% bootstrap_javascript %}
+  </head>
+
+  <body style="overflow-x: hidden" class="all">
+    <div class="containe">
+      <header>
+        <nav class="navbar navbar-expand-lg">
+          <div
+            class="container-fluid"
+            style="box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);"
+            
+          >
+            <a href="{% url 'memory:home' %}">
+              <img
+                src="../../media/images/travelmemory_logo.png"
+                alt="ロゴ"
+                height="50px"
+                style="padding-left: 30px"
+              />
+              <img
+                src="../../media/images/travelmemory_font.png"
+                alt="ロゴ"
+                height="64px"
+              />
+            </a>
+            <div class="collapse navbar-collapse" id="navbarText">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+              {% if user.is_authenticated %}
+
+              <!-- <div class="btn-logout" >
+                    <div class="btn-radius-gradient-wrap" id="wrap-red" >
+                        <a href="{% url 'memory:logout' %}" class="btn btn-radius-gradient" id="btn-red" >ログアウト</a>
+                      </div>
+                    </div> -->
+
+              {% else %}
+              <div class="btn-content">
+                <div class="btn-radius-gradient-wrap">
+                    <a href="{% url 'memory:login' %}" class="btn btn--orange btn--radius">ログイン</a>
+                  </div>
+                </div>
+                <div class="btn-content2">
+                  <div class="btn-radius-gradient-wrap">
+                    <a href="{% url 'memory:signup' %}" class="btn btn--orange btn--radius">新規登録</a>
+                  </div>
+                </div>
+
+              {% endif %}
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="content" id="use" style="text-align: center">
+        <div class="toumei">
+          <h1 style="padding-top: 50px" class="title">旅行記録サービス</h1>
+          <h1 style="font-size: 60px" class="title">Travel Memory</h1>
+          <h2 class="title" style="margin-bottom: 50px; margin-top: 30px">
+            旅の思い出を記録しよう
+          </h2>
+          <img
+            src="../../static/images/laptop_and_smartphone_mockup.png"
+            alt=""
+            style="width: 50vw;"
+          />
+        </div>
+      </div>
+      <hr />
+      <div style="text-align: center">
+        <h3
+          style="
+            padding-bottom: 30px;
+            text-decoration: underline;
+            text-decoration-color: #87cafa;
+          "
+        >
+          Travel Memoryとは
+        </h3>
+        <p>
+          Travel
+          Memoryは旅の思い出を記録していつでも振り返ることができる旅行記録サービスです。
+        </p>
+        <p>記録した旅行の思い出は永遠の財産になります。</p>
+        <img
+          src="../../media/images/travel_pair.png"
+          alt=""
+          style="height: 300px"
+        /><img
+          src="../../media/images/tower.png"
+          alt=""
+          style="height: 300px"
+        />
+        <hr />
+      </div>
+
+      <div style="text-align: center">
+        <h3
+          style="
+            padding-bottom: 30px;
+            text-decoration: underline;
+            text-decoration-color: #87cafa;
+          "
+        >
+          アプリの機能
+        </h3>
+<div class="function" >
+        <div style="width: 40%;">
+<img
+            src="../../static/images/memory_create_tm.png"
+            alt=""
+            style="width: 30%;"/>
+            <h3>簡単記録</h3>
+            <p>記録する項目が決まっているので簡単に記入できます。</p>
+          
+</div>
+
+<div style="width: 40%; margin-bottom: 20px">
+            <img
+            src="../../static/images/map_pin_tm.png"
+            alt=""
+            style="width: 30%;"/>
+            <h3>足跡</h3>
+            <p>
+              地図にピンが刺さりこれまでの旅が可視化されます。<br />
+              地図を埋めていく楽しさが生まれこれからの旅がより楽しくなります。
+            </p>
+</div>
+</div>
+
+<div class="function" >
+<div style="width: 40%;">
+            <img
+            src="../../static/images/blog_tm.png"
+            alt=""
+            style="width: 30%;"/>
+            <h3>簡単ブログ</h3>
+            <p>
+              ブログはめんどくさそうだけど興味があった方へ。<br />
+              記述項目はタイトル、本文、写真の3つだけなのですごく楽にできます。
+            </p>
+</div>
+
+<div style="width: 40%;">
+
+            <img
+            src="../../static/images/analytics_tm.png"
+            alt=""
+            style="width: 30%;height: 10.1vw;"/>
+            <h3>旅行分析</h3>
+            <p>合計旅行回数、一番行っている県などがわかります。</p>
+
+</div>
+</div>
+
+        <hr />
+        </div>
+      
+      <div style="text-align: center;">
+        <h3
+          style="
+            padding-bottom: 30px;
+            text-decoration: underline;
+            text-decoration-color: #87cafa;
+            
+            text-align: center;
+          "
+        >
+          近日実装予定
+        </h3>
+        <h3 >Randam Travel</h3><br>
+      <p >体験したい旅の条件を入れることで旅をランダムに提案します。</p>
+      </div>
+
+      <hr />
+      <div style="padding-bottom: 100px; text-align: center;">
+      <h4>このサービスは常に進化し続けます。</h4>
+      <h2>さあ、始めよう！</h2>
+        
+
+      
+      {% if user.is_authenticated %}
+
+      {% else %}
+
+
+      <div class="btn-content2" style="padding-left:40px ;">
+        <div class="btn-radius-gradient-wrap">
+          <a href="{% url 'memory:signup' %}" class="btn btn--orange btn--radius">新規登録</a>
+        </div>
+      </div>
+      {% endif %}
+
+      <footer class="footer">
+        <div class="footer-right">
+          <p class="menu">
+            <a class="navbar-brand" href="{% url 'memory:home' %}">
+              <img
+                src="../../media/images/travelmemory_logo.png"
+                alt="ロゴ"
+                height="50px"
+                style="padding-right: 50px; padding-left: 30px"
+              />
+            </a>
+            <a href="#"> サイト利用方法</a> | 
+            <a href="{% url 'memory:rule' %}"> 利用規約</a> |
+            <a href="{% url 'memory:policy' %}"> プライバシーポリシー</a> |
+            <a href="#"> お問い合わせ</a>
+          </p>
+          <p class="name">Travelmemory &copy; 2022</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

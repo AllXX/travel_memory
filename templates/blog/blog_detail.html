@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.1/mdb.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../static/memory/style.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.js"></script>
+  
+  
+
+<title>ブログ詳細</title>
+<style>
+    
+</style>
+
+{% endblock header %}
+
+{% block content %}
+<div class="form-container" style=" margin-left:25vw;">
+
+  <br>
+  <br>
+  
+  <h3>{{ object.title }}</h3>
+  <hr style="width: 60%;">
+  
+  <p>{{ object.registerd_at }} {{ object.user }}</p>
+  <p style=" width:60%;">{{ object.feeling }}</p>
+  
+  {% if object.memory_image %}
+  <img src='{{ MEDIA_URL }}{{object.memory_image}}' style="width: 40vw; height: 40vh;">
+  {% endif %}
+
+
+<!-- いいね機能 -->
+<div class="card-header" style="padding-top: 50px;">
+  {% if is_user_liked_for_post %}
+  <button type="button" id="ajax-like-for-post" style="border:none;background:none">
+    <!-- すでにイイねしている時はfasクラス -->
+    <i class="fas fa-heart text-danger" id="like-for-post-icon"></i>
+  </button>
+  {% else %}
+  <button type="button" id="ajax-like-for-post" style="border:none;background:none">
+    <!-- イイねしていないときはfarクラス -->
+    <i class="far fa-heart text-danger" id="like-for-post-icon"></i>
+  </button>
+  {% endif %}
+  <!-- イイねの数 -->
+  <span id="like-for-post-count">{{ like_count }}</span>
+  <span>件のイイね</span>
+</div>
+
+<script type="text/javascript">
+  document.getElementById('ajax-like-for-post').addEventListener('click', e => {
+    e.preventDefault();
+    const url = '{% url "blog:like" %}';
+    fetch(url, {
+      method: 'POST',
+      body: `post_pk={{object.pk}}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        'X-CSRFToken': '{{ csrf_token }}',
+      },
+    }).then(response => {
+      return response.json();
+    }).then(response => {
+       // イイね数を書き換える
+      const counter = document.getElementById('like-for-post-count')
+      counter.textContent = response.like_count
+      const icon = document.getElementById('like-for-post-icon')
+      // 作成した場合はハートを塗る
+      if (response.method == 'create') {
+        icon.classList.remove('far')
+        icon.classList.add('fas')
+        icon.id = 'like-for-post-icon'
+      } else {
+        icon.classList.remove('fas')
+        icon.classList.add('far')
+        icon.id = 'like-for-post-icon'
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+  });
+</script>
+
+{% if object.user == Username %}
+<div style="padding-top:30px;">
+<table >
+  <tr>
+      <td>
+<a href="{% url 'blog:edit' object.pk %}" class="create memory_edit">編集</a>
+
+</td>
+<td>
+
+<form method="post" action="{% url 'blog:delete' object.pk %}">{% csrf_token %}
+  <button class="btn-delete" type="submit" onclick='return confirm("本当に削除しますか？");'>削除</button>
+</form>
+</td>
+</tr>
+</table>
+</div>
+
+
+
+{% endif %}
+
+<div class="comment-form" style="padding-top: 50px;">
+    <h2>コメント投稿</h2>
+    <!-- コメント作成用のURLを渡す -->
+    {% if request.user.is_authenticated %}
+    <form action="{% url 'blog:comment' blog.pk %}" method="post">
+      {% csrf_token %}
+      {{ comment_form.comment}}
+      <br>
+
+      <div>
+        <button type="submit" class="save-btn" style="margin-top:30px;">送信</button>
+      </div>
+    </form>
+    {% else %}
+      <input type="text">
+      <a href="{% url 'memory:login' %}">
+        <button type="button" style="border:none;">送信</button>
+      </a>
+      </div>
+    </form>
+
+    {% endif %}
+    
+  {% if user.is_authenticated %}
+  </div>
+  
+  <div class="comment" style="padding-top:30px ;">
+  {% for com in comment %}
+  <p>{{ com.user }}</p>
+  <p>{{ com.comment }}
+  
+  {% if com.user == Username  or object.user == Username %}
+  <a href="{% url 'blog:comment_delete' com.pk %}" style="color:red;">削除</a>
+  {% endif %}
+</p>
+  <br>
+  {% endfor %}
+
+  {% else %}
+  <div style="padding-top:30px;">
+    {% for com in comment %}
+  <p>{{ com.user }}</p>
+  <p>{{ com.comment }}</p>
+</div>
+{% endfor %}
+  {% endif %}
+
+
+
+  
+  
+  </div>
+
+  {% endblock %}
+  

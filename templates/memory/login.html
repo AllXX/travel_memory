@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+{% load static %}
+<title>ログイン</title>
+
+</head>
+<body>
+<h1 style="text-align: center; padding-top: 30px;">ログイン</h1>
+{% for message in messages %}
+<div style="text-align: center; width: 30vh; margin: auto;"  {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+  {{message}}</div>
+{% endfor %}
+
+<div class="login-page">
+    <div class="form">
+      <form enctype="multipart/form-data" method="POST">
+      {% csrf_token %}  
+      <p name="username">ユーザー名</p>
+      <input name="username"> 
+      <p name="password">パスワード</p>
+      <input type="password" name="password">  
+      <br><br>
+      <button type="submit">ログイン</button>
+      <p>
+   <a href="{% url 'memory:signup' %}" style="text-decoration: none;  color:#4CAF50;">アカウントを作成</a>
+      </p>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
+
+{% endblock %}

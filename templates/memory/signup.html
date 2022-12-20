@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<title>新規登録</title>
+
+</head>
+
+<body>
+  {% for message in messages %}
+<div style="text-align: center; width: 30vh; margin: auto;"  {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+  {{message}}</div>
+{% endfor %}
+
+
+
+
+
+ {% if AccountCreate %}
+   <h1 style="text-align: center; padding-bottom: 50vh;  padding-top: 10vh;">登録完了!</h1>
+
+ {% else %}
+  <h1 style="text-align: center; padding-top: 30px;">新規登録</h1>
+   <div class="login-page">
+    <div class="form">
+      <form enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      <p>ユーザー名<span style="color: red;">(必須)</span> {{account_form.username}}</p>
+      <p>メールアドレス {{account_form.email}}</p>
+      <p>パスワード<span style="color: red;">(必須)</span> {{account_form.password}}</p>
+      <p>プロフィール画像 {{add_account_form.image}}</p>
+      <p>出身地 {{add_account_form.birthplace}}</p>
+      <button type="submit">登録</button>
+      <p>
+        <a href="{% url 'memory:login' %}" style="text-decoration: none;  color:#4CAF50;">ログイン</a>
+      </p>
+      
+      </form>
+    </div>
+  </div>
+  
+ {% endif %}
+
+</body>
+</html>
+
+{% endblock %}

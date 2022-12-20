@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+
+<title>ブログ編集</title>
+
+
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+ 
+    <h2 style="text-align:center; padding:30px;" >ブログ作成</h2>
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="text-align: center;">
+
+
+        <p style="text-align: center; font-weight: normal;color: #666;font-size: 0.8125rem;">タイトル</p>
+        <p>{{form.title}}</p>
+        <p style="text-align: center; font-weight: normal;color: #666;font-size: 0.8125rem;">感想</p>
+        <p>{{form.feeling}}</p>
+        <p style="text-align: center; font-weight: normal;color: #666;font-size: 0.8125rem;">旅行画像</p>
+        <p>{{form.memory_image}}</p>
+        <button type="submit" class="save-btn">保存</button>
+        </div>
+    </form>
+    </div>
+    
+
+
+
+{% endblock %}

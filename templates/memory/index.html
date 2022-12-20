@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% load static %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<title>旅行の足跡</title>
+
+<style>
+    #map {
+        height: 60vh;
+        width: 60vw;
+        margin: 0 auto
+    }
+</style>
+
+{% endblock header %}
+
+
+
+{% block content %}
+<br>
+<br>
+<div style="display: flex; justify-content:center;">
+<h2>旅行の足跡</h2>
+    <img src="../../static/images/foot.png" alt="" width="40px">
+</div>
+<br>
+<div class="col sm-0">
+    <div id="map"></div>
+</div>
+
+
+
+<script>
+    const geo = JSON.parse('{{ geos|safe }}');
+    var len = geo.length;
+    const lat = geo.map((obj) => obj.lat);
+    const lng = geo.map((obj) => obj.lng);
+    const ken = geo.map((obj) => obj.ken);
+
+    const memory = JSON.parse('{{ memory|safe }}');
+
+    
+    // console.log(memory[0].fields.place);    
+    // var marker = L.marker([geo[0],geo[1]]).addTo(MAP);
+    
+    //マップの表示位置を指定(緯度・経度)
+    MAP = L.map('map').setView([35.6809591, 139.7673068], 6);
+    MARKER = null;
+
+    //地図データはOSMから読み込み
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(MAP);
+   
+
+    //場所検索
+    L.Control.geocoder({ // 地点検索を行う
+        geocoder: L.Control.Geocoder.nominatim()
+    }).addTo(MAP);
+
+    for(var num = 0; num <= len -1 ; ++num){
+        var marker = L.marker([lat[num],lng[num]]).addTo(MAP).bindPopup(memory[num].fields.date+' '+memory[num].fields.place).openPopup();
+    }
+</script>
+
+{% endblock %}
