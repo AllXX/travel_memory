@@ -8,7 +8,7 @@ Travel Memoryは旅の思い出を記録していつでも振り返ることが�
 ![image](https://user-images.githubusercontent.com/95010912/208659191-d3eb49ba-d08f-47ef-b15a-e7d86ffb2ecb.png)
 
 ## URL
-travelsmemory.com
+https://travelsmemory.com
 
 
 ## 使用技術
