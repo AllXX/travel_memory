@@ -8,7 +8,7 @@ Travel Memoryは旅の思い出を記録していつでも振り返ることが�
 ![image](https://user-images.githubusercontent.com/95010912/208659191-d3eb49ba-d08f-47ef-b15a-e7d86ffb2ecb.png)
 
 ## URL
-〇〇
+travelsmemory.com
 
 
 ## 使用技術
@@ -20,7 +20,7 @@ Travel Memoryは旅の思い出を記録していつでも振り返ることが�
 
 
 ## AWS構成図
-- travelsmemory.com
+- なし
 
 ## 機能一覧
 - ユーザー登録、ログイン機能
