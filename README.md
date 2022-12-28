@@ -20,7 +20,7 @@ https://travelsmemory.com
 
 
 ## AWS構成図
-![image](https://user-images.githubusercontent.com/95010912/209738743-38745fef-8931-4e81-a784-f5e105e0e39d.png)
+![image](https://user-images.githubusercontent.com/95010912/209742860-3ab10807-b081-4d43-8896-4126af938d0b.png)
 
 
 ## 機能一覧
