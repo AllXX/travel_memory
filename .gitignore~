@@ -105,3 +105,4 @@ venv.bak/
 
  # Ignore uploaded files in development
 ./mysite/media/images
+./static/images
