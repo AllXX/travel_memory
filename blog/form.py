@@ -1,13 +1,13 @@
 from django import forms
-from .models import Blog,Comment,Like
+from .models import Blog, Comment, Like
 
 
-#ブログフォーム
+# ブログフォーム
 class BlogForm(forms.ModelForm):
     class Meta():
         model = Blog
-        fields = ('title','feeling','memory_image')
-    
+        fields = ('title', 'feeling', 'memory_image')
+
     feeling = forms.CharField(
         required=False,
         max_length=1200,
@@ -15,16 +15,14 @@ class BlogForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 'placeholder': '感想を記述してください',
-                'cols':60,
-                'rows':7,
             }
         )
     )
 
 
-#コメントフォーム
+# コメントフォーム
 class CommentForm(forms.ModelForm):
-    
+
     class Meta():
         model = Comment
         fields = ('comment',)
@@ -33,8 +31,7 @@ class CommentForm(forms.ModelForm):
         max_length=500,
         widget=forms.Textarea(
             attrs={
-                'cols':50,
-                'rows':5,
+                'rows': 5,
             }
         )
     )

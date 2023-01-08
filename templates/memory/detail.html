@@ -1,91 +1,105 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block header %} {% load static %}
 
-{% block header %}
-{% load static %}
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+  crossorigin="anonymous"
+/>
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""
+/>
+<script
+  src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""
+></script>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+/>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <title>思い出詳細</title>
-<script>
-    
-</script>
+<script></script>
 <style>
-#map {
-    height:60vh;
-    width: 80vh;
-
-}
+  #map {
+    height: 60vh;
+    width: 50vw;
+  }
 </style>
-{% endblock header %}
+{% endblock header %} {% block content %}
+<div class="form-container" style="margin-left: 25vw">
+  <br />
+  <br />
 
-{% block content %}
-<div class="form-container" style=" margin-left:25vw;">
+  <h3>{{ object.place }}</h3>
+  <hr style="width: 60%" />
 
-<br>
-<br>
+  <p>{{ object.date }} {{ object.weather }}</p>
+  <p style="width: 60%">{{ object.feeling }}</p>
 
-<h3>{{ object.place }}</h3>
-<hr style="width: 60%;">
+  {% if object.memory_image %}
+  <img
+    src="{{ MEDIA_URL }}{{object.memory_image}}"
+    style="width: 40vw; height: 50vh; margin-bottom: 30px"
+  />
+  {% endif %} {% if images %} {% for image in images %}
+  <img
+    src="{{ MEDIA_URL }}{{image.image}}"
+    style="width: 40vw; height: 50vh; margin-bottom: 30px"
+  />
+  {% endfor %} {% endif %}
 
-<p>{{ object.date }} {{ object.weather }}</p>
-<p style=" width:60%;">{{ object.feeling }}</p>
+  <br />
+  <br />
+  <div class="col sm-0">
+    <div id="map"></div>
+  </div>
+  <br />
+  <br />
 
-{% if object.memory_image %}
-<img src='{{ MEDIA_URL }}{{object.memory_image}}' style="width: 40vw; height: 50vh; margin-bottom: 30px;">
-{% endif %}
-
-{% if images %}
-{% for image in images %}
-<img src='{{ MEDIA_URL }}{{image.image}}' style="width: 40vw; height: 50vh; margin-bottom: 30px;">
-{% endfor %} 
-{% endif %}
-
-
-<br>
-<br>
-        <div class="col sm-0" >
-            <div id="map"></div>
-        </div>
-<br>
-<br>
-
-<table>
+  <table>
     <tr>
-        <td>
-<a href="{% url 'memory:edit' object.pk %}" class="create memory_edit">編集</a>
-</td>
-<td>
-
-<form method="post" action="{% url 'memory:delete' object.pk %}">{% csrf_token %}
-    <button class="btn-delete" type="submit" onclick='return confirm("本当に削除しますか？");'>削除</button>
-  </form>
-</td>
-</tr>
-</table>
+      <td>
+        <a href="{% url 'memory:edit' object.pk %}" class="create memory_edit"
+          >編集</a
+        >
+      </td>
+      <td>
+        <form method="post" action="{% url 'memory:delete' object.pk %}">
+          {% csrf_token %}
+          <button
+            class="btn-delete"
+            type="submit"
+            onclick='return confirm("本当に削除しますか？");'
+          >
+            削除
+          </button>
+        </form>
+      </td>
+    </tr>
+  </table>
 </div>
 
-    <script>
+<script>
+  const geo = JSON.parse("{{ geo|safe }}");
 
-        const geo = JSON.parse('{{ geo|safe }}');
+  //マップの表示位置を指定(緯度・経度)
+  MAP = L.map("map").setView([geo[0], geo[1]], 8);
 
-        //マップの表示位置を指定(緯度・経度)
-        MAP = L.map('map').setView([geo[0],geo[1]], 8); 
-
-        //地図データはOSMから読み込み
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(MAP);
-        var marker = L.marker([geo[0],geo[1]]).addTo(MAP);
-
-
-    </script>
-
+  //地図データはOSMから読み込み
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(MAP);
+  var marker = L.marker([geo[0], geo[1]]).addTo(MAP);
+</script>
 
 {% endblock %}

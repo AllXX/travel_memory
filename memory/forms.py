@@ -124,8 +124,6 @@ class PostForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 'placeholder': '感想を記述してください',
-                'cols':60,
-                'rows':7,
             }
         )
     )
