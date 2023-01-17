@@ -16,7 +16,10 @@ https://travelsmemory.com
 - html
 - css
 - js
-- django 4.1.3
+- Python
+- django
+- MySQL
+- AWS
 
 
 ## AWS構成図
